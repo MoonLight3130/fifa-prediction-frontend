@@ -390,14 +390,14 @@ export default function Predict() {
 
             <div className="mt-6 rounded-2xl border border-white/[0.08] bg-[#0a1628]/60 p-6 backdrop-blur-sm sm:p-8">
               <div className="flex items-center justify-center gap-6 sm:gap-10">
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-center gap-2 text-center">
                   {homeCode ? <Flag code={homeCode} size="lg" /> : null}
-                  <span className="text-[13px] font-bold text-white">{selectedMatch.homeTeam.name}</span>
+                  <span className="text-[13px] font-bold text-white max-w-[100px] sm:max-w-none text-balance">{selectedMatch.homeTeam.name}</span>
                 </div>
                 <span className="text-2xl font-bold text-white/80">VS</span>
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-center gap-2 text-center">
                   {awayCode ? <Flag code={awayCode} size="lg" /> : null}
-                  <span className="text-[13px] font-bold text-white">{selectedMatch.awayTeam.name}</span>
+                  <span className="text-[13px] font-bold text-white max-w-[100px] sm:max-w-none text-balance">{selectedMatch.awayTeam.name}</span>
                 </div>
               </div>
 
@@ -453,7 +453,7 @@ export default function Predict() {
                   <p className="mt-1 text-[12px] text-white/45">
                     Select the winning team or draw
                   </p>
-                  <div className="mt-4 grid grid-cols-3 gap-3">
+                  <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
                     {winnerOptions.map((option) => {
                       const selected = winner === option.id
                       return (
@@ -487,14 +487,14 @@ export default function Predict() {
                     2. Predict the final score
                   </h2>
                   <p className="mt-1 text-[12px] text-white/45">Enter your predicted score</p>
-                  <div className="mt-4 flex items-center justify-center gap-4">
+                  <div className="mt-4 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
                     <ScoreInput
                       label={selectedMatch.homeTeam.name}
                       value={homeScore}
                       onChange={setHomeScore}
                       disabled={isFormDisabled}
                     />
-                    <span className="mt-6 text-2xl font-light text-white/30">-</span>
+                    <span className="hidden text-2xl font-light text-white/30 sm:block sm:mt-6">-</span>
                     <ScoreInput
                       label={selectedMatch.awayTeam.name}
                       value={awayScore}
@@ -553,16 +553,17 @@ export default function Predict() {
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-sm font-bold text-blue-400">
                 i
               </div>
-              <p className="flex-1 text-[12px] leading-relaxed text-white/70 sm:text-[13px]">
-                <span className="font-semibold text-white">Scoring System</span>
-                <span className="mx-2 text-white/25">|</span>
-                Correct Winner: <span className="font-semibold text-white">{settings?.pointsCorrectWinner ?? 10} Points</span>
-                <span className="mx-2 text-white/25">|</span>
-                Correct Score: <span className="font-semibold text-white">{settings?.pointsExactScore ?? 20} Points</span>
-                <span className="mx-2 text-white/25">|</span>
-                Close Score (Exact Goal Difference):{' '}
-                <span className="font-semibold text-white">{settings?.pointsGoalDifference ?? 5} Points</span>
-              </p>
+              <div className="flex-1 text-[12px] leading-relaxed text-white/70 sm:text-[13px]">
+                <span className="font-semibold text-white block sm:inline">Scoring System</span>
+                <span className="hidden mx-2 text-white/25 sm:inline">|</span>
+                <div className="mt-1 sm:mt-0 sm:inline">
+                  Correct Winner: <span className="font-semibold text-white">{settings?.pointsCorrectWinner ?? 10}</span>
+                  <span className="mx-2 text-white/25">|</span>
+                  Correct Score: <span className="font-semibold text-white">{settings?.pointsExactScore ?? 20}</span>
+                  <span className="mx-2 text-white/25">|</span>
+                  Close Score: <span className="font-semibold text-white">{settings?.pointsGoalDifference ?? 5}</span>
+                </div>
+              </div>
               <GiSoccerBall className="hidden h-10 w-10 shrink-0 text-white/20 sm:block" />
             </div>
           </main>
