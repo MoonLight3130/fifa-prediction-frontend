@@ -23,6 +23,7 @@ google-apps-script
 .env.local
 .env.*.local
 server/.env
+/server/
 
 # Dev server log files
 dev-server.log
