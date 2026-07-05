@@ -178,7 +178,7 @@ export default function Navbar() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="border-t border-white/10 xl:hidden"
+          className="overflow-hidden border-t border-white/10 xl:hidden"
         >
           <ul className="flex flex-col px-4 py-3">
             {navLinks.map((link) => (
