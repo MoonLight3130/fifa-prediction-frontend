@@ -163,7 +163,7 @@ export default function Footer() {
             © {new Date().getFullYear()} World Cup College Prediction League. All rights reserved to Haran.
           </p>
           <p className="text-[11px] text-white/25">
-            This is an unofficial college fan prediction platform. Not affiliated with FIFA.
+            Organized by MESITAM College Union | Built for the FIFA World Cup Prediction League 2026
           </p>
         </div>
       </div>
