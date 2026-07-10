@@ -51,7 +51,8 @@ function TeamDisplay({
   align: 'left' | 'right'
   score?: number
 }) {
-  const hasFlag = team.code && isFlagCode(team.code)
+  const flagCodeToUse = team.code || team.name
+  const hasFlag = flagCodeToUse && isFlagCode(flagCodeToUse)
 
   return (
     <div
@@ -70,7 +71,7 @@ function TeamDisplay({
         <span className="shrink-0 text-lg font-bold tabular-nums text-white/90 lg:hidden">{score}</span>
       )}
       {hasFlag ? (
-        <Flag code={team.code!} size="md" className="shrink-0" />
+        <Flag code={flagCodeToUse!} size="md" className="shrink-0" />
       ) : (
         <span className="flex h-7 w-10 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/[0.04] text-[9px] font-bold text-white/30">
           TBD

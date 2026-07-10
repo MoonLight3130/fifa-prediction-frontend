@@ -235,8 +235,10 @@ export default function Predict() {
     )
   }
 
-  const homeCode = isFlagCode(selectedMatch.homeTeam.code ?? '') ? (selectedMatch.homeTeam.code as FlagCode) : undefined
-  const awayCode = isFlagCode(selectedMatch.awayTeam.code ?? '') ? (selectedMatch.awayTeam.code as FlagCode) : undefined
+  const homeCodeStr = selectedMatch?.homeTeam.code || selectedMatch?.homeTeam.name || ''
+  const awayCodeStr = selectedMatch?.awayTeam.code || selectedMatch?.awayTeam.name || ''
+  const homeCode = isFlagCode(homeCodeStr) ? homeCodeStr : undefined
+  const awayCode = isFlagCode(awayCodeStr) ? awayCodeStr : undefined
 
   const winnerOptions: { id: WinnerChoice; label: string; content: ReactNode }[] = [
     {
@@ -292,8 +294,10 @@ export default function Predict() {
               </div>
               <ul className="mt-4 space-y-3">
                 {openMatches.map((match) => {
-                  const matchHome = isFlagCode(match.homeTeam.code ?? '') ? (match.homeTeam.code as FlagCode) : undefined
-                  const matchAway = isFlagCode(match.awayTeam.code ?? '') ? (match.awayTeam.code as FlagCode) : undefined
+                  const matchHomeStr = match.homeTeam.code || match.homeTeam.name
+                  const matchAwayStr = match.awayTeam.code || match.awayTeam.name
+                  const matchHome = isFlagCode(matchHomeStr) ? matchHomeStr : undefined
+                  const matchAway = isFlagCode(matchAwayStr) ? matchAwayStr : undefined
                   const mStatus = getMatchPredictionStatus(
                     match.homeTeam.name,
                     match.awayTeam.name,

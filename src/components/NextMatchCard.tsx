@@ -51,8 +51,10 @@ export default function NextMatchCard() {
     )
   }
 
-  const homeCode = isFlagCode(match.homeTeam.code ?? '') ? (match.homeTeam.code as FlagCode) : undefined
-  const awayCode = isFlagCode(match.awayTeam.code ?? '') ? (match.awayTeam.code as FlagCode) : undefined
+  const homeCodeStr = match.homeTeam.code || match.homeTeam.name
+  const awayCodeStr = match.awayTeam.code || match.awayTeam.name
+  const homeCode = isFlagCode(homeCodeStr) ? homeCodeStr : undefined
+  const awayCode = isFlagCode(awayCodeStr) ? awayCodeStr : undefined
 
   return (
     <motion.div
