@@ -51,9 +51,9 @@ export default function Login() {
 
       <form className="mt-7 flex flex-col gap-5" onSubmit={handleSubmit}>
         <AuthInput
-          label="Roll Number (Unique ID)"
+          label="KTU ID"
           type="text"
-          placeholder="Enter your roll number"
+          placeholder="Enter your KTU ID"
           icon={<HiOutlineIdentification className="h-[18px] w-[18px]" />}
           value={rollNumber}
           onChange={(e) => setRollNumber(e.target.value)}
@@ -94,7 +94,7 @@ export default function Login() {
 
         <div className="flex justify-end">
           <span className="text-[12px] font-medium text-white/35">
-            Use your registered roll number
+            Use your registered KTU ID
           </span>
         </div>
 

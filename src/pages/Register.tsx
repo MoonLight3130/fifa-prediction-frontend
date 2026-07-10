@@ -83,9 +83,9 @@ export default function Register() {
         />
 
         <AuthInput
-          label="Roll Number (Unique ID)"
+          label="KTU ID"
           type="text"
-          placeholder="Enter your roll number"
+          placeholder="Enter your KTU ID"
           hint="Example: MEK23CS024"
           icon={<HiOutlineIdentification className="h-[18px] w-[18px]" />}
           value={rollNumber}
