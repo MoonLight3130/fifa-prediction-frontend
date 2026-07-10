@@ -16,6 +16,7 @@ import {
   getToken,
   isStoredTokenValid,
   saveSession,
+  apiUpdateMe,
   type PublicUser,
   type RegisterData,
 } from '../lib/authApi'
@@ -34,6 +35,7 @@ interface AuthContextValue {
   register: (data: RegisterData) => Promise<
     { ok: true; user?: PublicUser } | { ok: false; error: string }
   >
+  updateProfile: (fullName: string) => Promise<{ ok: true; user: PublicUser } | { ok: false; error: string }>
   logout: () => void
 }
 
@@ -100,6 +102,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
   }, [])
 
+  const updateProfile = useCallback(async (fullName: string) => {
+    const result = await apiUpdateMe(fullName)
+    if (result.ok) {
+      setUser(result.user)
+      saveSession(result.user, getToken() ?? undefined)
+    }
+    return result
+  }, [])
+
   const value = useMemo(
     () => ({
       user,
@@ -108,9 +119,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isLoading,
       login,
       register,
+      updateProfile,
       logout,
     }),
-    [user, isLoading, login, register, logout],
+    [user, isLoading, login, register, updateProfile, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

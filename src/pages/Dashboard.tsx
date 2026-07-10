@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   HiOutlineArrowRight,
@@ -9,6 +9,7 @@ import {
   HiOutlineStar,
   HiOutlineTrendingUp,
   HiOutlineUserCircle,
+  HiOutlinePencil,
 } from 'react-icons/hi'
 import Flag from '../components/Flag'
 import { useAuth } from '../context/AuthContext'
@@ -121,7 +122,25 @@ function formatDate(iso: string): string {
 }
 
 export default function Dashboard() {
-  const { user } = useAuth()
+  const { user, updateProfile } = useAuth()
+  const [isEditingName, setIsEditingName] = useState(false)
+  const [editNameValue, setEditNameValue] = useState('')
+  const [isSavingName, setIsSavingName] = useState(false)
+
+  const handleSaveName = async () => {
+    if (!editNameValue.trim() || editNameValue.trim() === user?.fullName) {
+      setIsEditingName(false)
+      return
+    }
+    setIsSavingName(true)
+    const result = await updateProfile(editNameValue.trim())
+    setIsSavingName(false)
+    if (result.ok) {
+      setIsEditingName(false)
+    } else {
+      alert(result.error)
+    }
+  }
   const { data: matchResultsData } = useAsync(fetchMatchResults, [])
   const { data: nextMatch } = useAsync(fetchNextMatch, [])
   const { data: predictionsData } = useAsync(
@@ -174,8 +193,48 @@ export default function Dashboard() {
                 <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]">
                   <HiOutlineUserCircle className="h-10 w-10 text-white/30" />
                 </div>
-                <p className="mt-3 text-[15px] font-semibold text-white">{user?.fullName}</p>
-                <p className="text-[12px] text-grass-500">{user?.rollNumber}</p>
+                {isEditingName ? (
+                  <div className="mt-3 flex flex-col items-center gap-2">
+                    <input
+                      type="text"
+                      value={editNameValue}
+                      onChange={(e) => setEditNameValue(e.target.value)}
+                      disabled={isSavingName}
+                      className="w-full rounded-lg border border-white/10 bg-navy-950 px-3 py-1.5 text-center text-[14px] text-white focus:border-grass-500/50 focus:outline-none"
+                    />
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setIsEditingName(false)}
+                        disabled={isSavingName}
+                        className="rounded-md border border-white/10 px-3 py-1 text-[11px] text-white/60 hover:text-white"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleSaveName}
+                        disabled={isSavingName}
+                        className="rounded-md bg-grass-500 px-3 py-1 text-[11px] font-semibold text-white hover:bg-grass-600"
+                      >
+                        {isSavingName ? 'Saving...' : 'Save'}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-3 flex items-center justify-center gap-2">
+                    <p className="text-[15px] font-semibold text-white">{user?.fullName}</p>
+                    <button
+                      onClick={() => {
+                        setEditNameValue(user?.fullName || '')
+                        setIsEditingName(true)
+                      }}
+                      className="text-white/30 hover:text-grass-500 transition-colors"
+                      title="Edit Name"
+                    >
+                      <HiOutlinePencil className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                )}
+                <p className="mt-1 text-[12px] text-grass-500">{user?.rollNumber}</p>
                 <p className="mt-1 text-[11px] text-white/40">{user?.department}</p>
                 <p className="text-[11px] text-white/40">{user?.year}</p>
               </div>

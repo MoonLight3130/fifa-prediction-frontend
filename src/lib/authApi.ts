@@ -221,3 +221,28 @@ export async function apiGetMe(): Promise<
     return { ok: false, error: 'Network error. Please try again.' }
   }
 }
+
+export async function apiUpdateMe(fullName: string): Promise<
+  { ok: true; user: PublicUser } | { ok: false; error: string }
+> {
+  const token = getToken()
+
+  if (!token || !getTokenUserId(token)) {
+    return { ok: false, error: 'Session expired.' }
+  }
+
+  try {
+    const result = await apiRequest<ApiResponse>('/auth/me', {
+      method: 'PUT',
+      body: JSON.stringify({ fullName }),
+    })
+
+    if (!result.success || !result.user) {
+      return { ok: false, error: result.message ?? 'Failed to update profile.' }
+    }
+
+    return { ok: true, user: mapApiUser(result.user) }
+  } catch {
+    return { ok: false, error: 'Network error. Please try again.' }
+  }
+}
