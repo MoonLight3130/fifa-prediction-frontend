@@ -25,6 +25,7 @@ export const SEMESTER_OPTIONS: SelectOption[] = [
   { value: 'S6', label: '3rd Year / Semester 6 (S6)' },
   { value: 'S7', label: '4th Year / Semester 7 (S7)' },
   { value: 'S8', label: '4th Year / Semester 8 (S8)' },
+  { value: 'Faculty', label: 'Faculty' },
 ]
 
 const departmentLabels = Object.fromEntries(
