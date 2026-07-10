@@ -3,10 +3,9 @@ import { motion } from 'framer-motion'
 import { Link, NavLink } from 'react-router-dom'
 import TrophyLogo from './TrophyLogo'
 import {
-  FaFacebookF,
+  FaWhatsapp,
   FaInstagram,
   FaLinkedinIn,
-  FaXTwitter,
 } from 'react-icons/fa6'
 
 const exploreLinks = [
@@ -31,10 +30,24 @@ const supportLinks = [
 ]
 
 const socialLinks = [
-  { icon: FaXTwitter, label: 'Twitter', href: '#' },
-  { icon: FaInstagram, label: 'Instagram', href: '#' },
-  { icon: FaFacebookF, label: 'Facebook', href: '#' },
-  { icon: FaLinkedinIn, label: 'LinkedIn', href: '#' },
+  { 
+    icon: FaWhatsapp, 
+    label: 'WhatsApp', 
+    href: 'https://chat.whatsapp.com/Kc7DTXGjWUi0PbkMyPaNX2',
+    hoverClass: 'hover:border-[#25D366]/50 hover:bg-[#25D366]/10 hover:text-[#25D366] hover:shadow-[0_0_12px_rgba(37,211,102,0.4)]'
+  },
+  { 
+    icon: FaInstagram, 
+    label: 'Instagram', 
+    href: 'https://www.instagram.com/collegeunionmesitam?igsh=MTdxNjlobmRnYnY0bw==',
+    hoverClass: 'hover:border-pink-500/50 hover:bg-gradient-to-tr hover:from-orange-500/20 hover:to-pink-500/20 hover:text-pink-500 hover:shadow-[0_0_12px_rgba(236,72,153,0.4)]'
+  },
+  { 
+    icon: FaLinkedinIn, 
+    label: 'LinkedIn', 
+    href: 'https://www.linkedin.com/in/haransanthosh/',
+    hoverClass: 'hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/10 hover:text-[#0A66C2] hover:shadow-[0_0_12px_rgba(10,102,194,0.4)]'
+  },
 ]
 
 export default function Footer() {
@@ -83,14 +96,16 @@ export default function Footer() {
             </p>
 
             <div className="mt-6 flex items-center gap-2.5">
-              {socialLinks.map(({ icon: Icon, label, href }) => (
+              {socialLinks.map(({ icon: Icon, label, href, hoverClass }) => (
                 <motion.a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   whileHover={{ scale: 1.08, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-white/60 transition-colors duration-200 hover:border-grass-500/40 hover:bg-grass-500/10 hover:text-grass-500"
+                  className={`flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-white/60 transition-all duration-300 ${hoverClass}`}
                 >
                   <Icon className="h-3.5 w-3.5" />
                 </motion.a>
