@@ -127,18 +127,45 @@ export default function Dashboard() {
   const [editNameValue, setEditNameValue] = useState('')
   const [isSavingName, setIsSavingName] = useState(false)
 
+  const [isEditingKtuId, setIsEditingKtuId] = useState(false)
+  const [editKtuIdValue, setEditKtuIdValue] = useState('')
+  const [isSavingKtuId, setIsSavingKtuId] = useState(false)
+  const [ktuIdError, setKtuIdError] = useState('')
+
   const handleSaveName = async () => {
     if (!editNameValue.trim() || editNameValue.trim() === user?.fullName) {
       setIsEditingName(false)
       return
     }
     setIsSavingName(true)
-    const result = await updateProfile(editNameValue.trim())
+    const result = await updateProfile({ fullName: editNameValue.trim() })
     setIsSavingName(false)
     if (result.ok) {
       setIsEditingName(false)
     } else {
       alert(result.error)
+    }
+  }
+
+  const handleSaveKtuId = async () => {
+    const trimmed = editKtuIdValue.trim().toUpperCase()
+    setKtuIdError('')
+    if (!trimmed || trimmed === user?.rollNumber) {
+      setIsEditingKtuId(false)
+      return
+    }
+    // Basic format check on frontend too
+    if (!/^[A-Z0-9]{5,20}$/.test(trimmed)) {
+      setKtuIdError('Use only letters and numbers (5–20 chars).')
+      return
+    }
+    setIsSavingKtuId(true)
+    const result = await updateProfile({ rollNumber: trimmed })
+    setIsSavingKtuId(false)
+    if (result.ok) {
+      setIsEditingKtuId(false)
+    } else {
+      setKtuIdError(result.error)
     }
   }
   const { data: matchResultsData } = useAsync(fetchMatchResults, [])
@@ -234,7 +261,55 @@ export default function Dashboard() {
                     </button>
                   </div>
                 )}
-                <p className="mt-1 text-[12px] text-grass-500">{user?.rollNumber}</p>
+
+                {/* KTU ID row */}
+                {isEditingKtuId ? (
+                  <div className="mt-2 flex flex-col items-center gap-2 w-full">
+                    <input
+                      type="text"
+                      value={editKtuIdValue}
+                      onChange={(e) => { setEditKtuIdValue(e.target.value); setKtuIdError('') }}
+                      disabled={isSavingKtuId}
+                      placeholder="New KTU ID"
+                      className="w-full rounded-lg border border-white/10 bg-navy-950 px-3 py-1.5 text-center text-[13px] uppercase text-white focus:border-grass-500/50 focus:outline-none"
+                    />
+                    {ktuIdError && (
+                      <p className="text-[10px] text-red-400">{ktuIdError}</p>
+                    )}
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => { setIsEditingKtuId(false); setKtuIdError('') }}
+                        disabled={isSavingKtuId}
+                        className="rounded-md border border-white/10 px-3 py-1 text-[11px] text-white/60 hover:text-white"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleSaveKtuId}
+                        disabled={isSavingKtuId}
+                        className="rounded-md bg-grass-500 px-3 py-1 text-[11px] font-semibold text-white hover:bg-grass-600"
+                      >
+                        {isSavingKtuId ? 'Saving...' : 'Save'}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-1 flex items-center justify-center gap-1.5">
+                    <p className="text-[12px] text-grass-500">{user?.rollNumber}</p>
+                    <button
+                      onClick={() => {
+                        setEditKtuIdValue(user?.rollNumber || '')
+                        setIsEditingKtuId(true)
+                        setKtuIdError('')
+                      }}
+                      className="text-white/20 hover:text-grass-500 transition-colors"
+                      title="Change KTU ID"
+                    >
+                      <HiOutlinePencil className="h-3 w-3" />
+                    </button>
+                  </div>
+                )}
+
                 <p className="mt-1 text-[11px] text-white/40">{user?.department}</p>
                 <p className="text-[11px] text-white/40">{user?.year}</p>
               </div>

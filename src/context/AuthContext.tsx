@@ -35,7 +35,7 @@ interface AuthContextValue {
   register: (data: RegisterData) => Promise<
     { ok: true; user?: PublicUser } | { ok: false; error: string }
   >
-  updateProfile: (fullName: string) => Promise<{ ok: true; user: PublicUser } | { ok: false; error: string }>
+  updateProfile: (updates: { fullName?: string; rollNumber?: string }) => Promise<{ ok: true; user: PublicUser } | { ok: false; error: string }>
   logout: () => void
 }
 
@@ -102,8 +102,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
   }, [])
 
-  const updateProfile = useCallback(async (fullName: string) => {
-    const result = await apiUpdateMe(fullName)
+  const updateProfile = useCallback(async (updates: { fullName?: string; rollNumber?: string }) => {
+    const result = await apiUpdateMe(updates)
     if (result.ok) {
       setUser(result.user)
       saveSession(result.user, getToken() ?? undefined)

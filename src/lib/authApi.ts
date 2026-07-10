@@ -222,7 +222,7 @@ export async function apiGetMe(): Promise<
   }
 }
 
-export async function apiUpdateMe(fullName: string): Promise<
+export async function apiUpdateMe(updates: { fullName?: string; rollNumber?: string }): Promise<
   { ok: true; user: PublicUser } | { ok: false; error: string }
 > {
   const token = getToken()
@@ -234,7 +234,7 @@ export async function apiUpdateMe(fullName: string): Promise<
   try {
     const result = await apiRequest<ApiResponse>('/auth/me', {
       method: 'PUT',
-      body: JSON.stringify({ fullName }),
+      body: JSON.stringify(updates),
     })
 
     if (!result.success || !result.user) {
