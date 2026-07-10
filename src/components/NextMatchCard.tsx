@@ -7,7 +7,6 @@ import PredictionCountdown from './PredictionCountdown'
 import { useAsync } from '../hooks/useAsync'
 import { fetchNextMatch } from '../lib/api/matches'
 import { isFlagCode } from '../lib/flags'
-import type { FlagCode } from '../lib/flags'
 import { getPredictionStatus } from '../lib/matchValidation'
 
 function useKickoffCountdown(kickoffAt?: string | null) {
